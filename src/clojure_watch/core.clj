@@ -85,8 +85,8 @@
                                            str)]
                              ; Run callback in another thread
                              (future (do 
-                               (callback kind name)
-                               (.reset key)))))
+                                      (callback kind name)
+                                      (.reset key)))))
                          (recur watcher keys))))
               (close-watcher []
                 (.close watcher))]
