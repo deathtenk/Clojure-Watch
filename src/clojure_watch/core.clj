@@ -33,8 +33,8 @@
                                (aset 0 modifier)))
 
                  key (if modifiers
-                       (.register dir watcher (into-array types) modifiers)
-                       (.register dir watcher (into-array types)))]
+                       (.register dir watcher (into-array java.nio.file.WatchEvent$Kind types) modifiers)
+                       (.register dir watcher (into-array java.nio.file.WatchEvent$Kind types)))]
 
              (assoc keys key [dir callback])))]
     (register-helper spec watcher keys)))
@@ -84,11 +84,11 @@
                                            (.resolve dir)
                                            str)]
                              ; Run callback in another thread
-                             (future (do 
-                               (callback kind name)
-                               (.reset key)))))
+                              (do
+                                (callback kind name)
+                                (.reset key))))
                          (recur watcher keys))))
               (close-watcher []
                 (.close watcher))]
-        (future (watch watcher keys))
+        (watch watcher keys)
         close-watcher))))
